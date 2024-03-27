@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  title: Pricing API
+  version: 1.0.0
+  description: API to calculate delivery pricing
+paths:
+  /price:
+    post:
+      summary: Calculate delivery price
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                zone:
+                  type: string
+                  minLength: 3
+                organization_id:
+                  type: string
+                  minLength: 1
+                total_distance:
+                  type: string
+                  minLength: 1
+                item_id:
+                  type: string
+                  minLength: 1
+              required:
+                - zone
+                - organization_id
+                - total_distance
+                - item_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_price:
+                    type: number
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        msg:
+                          type: string
+                        param:
+                          type: string
+                        location:
+                          type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: localhost
+    url: http://localhost:5000/
