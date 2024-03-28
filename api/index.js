@@ -3,7 +3,7 @@ const cors = require('cors')
 require('dotenv').config();
 const swaggerUi=require('swagger-ui-express');
 const YAML=require('yamljs');
-
+const path = require('path');
 
 
 const app=express()
@@ -12,8 +12,9 @@ app.use(express.json())
 
 
 
-// Construct the absolute path to your Swagger YAML file
-const swaggerFilePath = `${__dirname}/../docs/swagger.yaml`;
+// // Construct the absolute path to your Swagger YAML file
+
+const swaggerFilePath = path.resolve(__dirname, '..', 'Docs', 'swagger.yaml');
 // Load your Swagger YAML file
 const swaggerDocument = YAML.load(swaggerFilePath);
 
