@@ -7,10 +7,10 @@ dynamic pricing module to calculate the total cost of food delivery based on var
 
 ## API
 checkout the API here :- - [Dynamic_pricing_API](https://dynamicpricing.onrender.com) 
-API endpoint :- /price
-Allowed Method:- POST
+- API endpoint :- /price
+- Allowed Method:- POST
 
-for more details visit the API page it has swagger page which documents the API.
+- for more details visit the API page it has swagger page which documents the API.
 
 ## Built With
 
