@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Pricing API
   version: 1.0.0
-  description: API to calculate delivery pricing
+  description: API to Dynamically calculate delivery pricing
 paths:
   /price:
     post:
@@ -17,23 +17,24 @@ paths:
                 zone:
                   type: string
                   minLength: 3
+                  description: Zone code
                 organization_id:
                   type: string
                   minLength: 1
+                  description: Organization ID
                 total_distance:
+                  type: number
+                  minimum: 1
+                  description: Total distance in kilometers
+                item_type:
                   type: string
-                  minLength: 1
-                item_id:
-                  type: string
-                  minLength: 1
-              required:
-                - zone
-                - organization_id
-                - total_distance
-                - item_id
+                  enum:
+                    - perishable
+                    - non-perishable
+                  description: Type of item
       responses:
         '200':
-          description: OK
+          description: Successful operation
           content:
             application/json:
               schema:
@@ -41,8 +42,9 @@ paths:
                 properties:
                   total_price:
                     type: number
+                    description: Total price for the delivery
         '400':
-          description: Bad Request
+          description: Bad request
           content:
             application/json:
               schema:
@@ -55,12 +57,15 @@ paths:
                       properties:
                         msg:
                           type: string
+                          description: Error message
                         param:
                           type: string
+                          description: Parameter name
                         location:
                           type: string
+                          description: Location of the parameter in the request
         '404':
-          description: Not Found
+          description: Pricing not found for the given parameters
           content:
             application/json:
               schema:
@@ -68,6 +73,7 @@ paths:
                 properties:
                   error:
                     type: string
+                    description: Error message
         '500':
           description: Internal Server Error
           content:
@@ -77,7 +83,8 @@ paths:
                 properties:
                   error:
                     type: string
+                    description: Error message
 servers:
   # Added by API Auto Mocking Plugin
-  - description: localhost
-    url: http://localhost:5000/
+  - description: local
+    url: http://localhost:5000

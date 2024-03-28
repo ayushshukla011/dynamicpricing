@@ -4,10 +4,10 @@ const { query, validationResult, body } = require('express-validator');
 const pool=require('../db');
 
 router.post('/price', [
-    body('zone', 'Enter valid zone').isLength({ min: 3 }),
+    body('zone', 'Enter valid zone ').isLength({ min: 3 }),
     body('organization_id', 'Enter valid organisation_id').isLength({ min: 1 }),
     body('total_distance', 'Enter valid total_distance').isLength({ min: 1 }),
-    body('item_id', 'Enter valid item_type').isLength({ min: 1 })
+    body('item_type').isIn(['perishable', 'non-perishable']).withMessage('Enter valid item_type i.e perishable or non-perishable'),
 ], async (req, res) => {
 
     //checks the proper type in request and return errors
@@ -18,16 +18,16 @@ router.post('/price', [
     }
 
     // Extracting request body parameters
-        const { zone, organization_id, total_distance, item_id } = req.body;
+        const { zone, organization_id, total_distance, item_type } = req.body;
     
         try {
             // Fetch pricing information from the database
             const query = `
               SELECT km_price, fix_price, base_distance_in_km 
               FROM my_database_schema.pricing 
-              WHERE organization_id = $1 AND item_id = $2 AND zone = $3;
+              WHERE organization_id = $1 AND item_type = $2 AND zone = $3;
             `;
-            const { rows } = await pool.query(query, [organization_id, item_id, zone]);
+            const { rows } = await pool.query(query, [organization_id, item_type, zone]);
         
             if (rows.length === 0) {
               return res.status(404).json({ error: 'Pricing not found for the given parameters' });
@@ -35,16 +35,18 @@ router.post('/price', [
         
             const { km_price, fix_price, base_distance_in_km } = rows[0];
 
-            const km_price_int = parseInt(km_price, 10);
-            const fix_price_int = parseInt(fix_price, 10);
-            const base_distance_in_km_int = parseInt(base_distance_in_km, 10);
+            //ensuring numeric values for calculation
+            const total_distance_int=parseFloat(total_distance,10);
+            const km_price_int = parseFloat(km_price, 10);
+            const fix_price_int = parseFloat(fix_price, 10);
+            const base_distance_in_km_int = parseFloat(base_distance_in_km, 10);
 
             // Calculate delivery cost
             let totalCost = fix_price_int; // Base price
         
             if (total_distance > base_distance_in_km_int) {
-              const additionalDistance = total_distance - base_distance_in_km_int;
-              totalCost = (fix_price_int) + (additionalDistance * km_price_int);
+              const additionalDistance = total_distance_int - base_distance_in_km_int;
+              totalCost +=(additionalDistance * km_price_int);
             }
         
             res.status(200).json({"total_price":totalCost});
