@@ -72,6 +72,6 @@ npm i -D package_name
 
 ## Connect with Database using CLI or by GUI tool pgAdmin
 
-## For credentials visit db.js file
+## For credentials visit db.js file in api directory
 
 
