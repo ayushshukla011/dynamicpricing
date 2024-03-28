@@ -12,8 +12,7 @@ app.use(express.json())
 
 
 
-// // Construct the absolute path to your Swagger YAML file
-
+// Construct the absolute path to your Swagger YAML file
 const swaggerFilePath = path.resolve(__dirname, '..', 'Docs', 'swagger.yaml');
 // Load your Swagger YAML file
 const swaggerDocument = YAML.load(swaggerFilePath);
@@ -22,7 +21,7 @@ const swaggerDocument = YAML.load(swaggerFilePath);
 app.use('/', swaggerUi.serve);
 app.get('/', swaggerUi.setup(swaggerDocument));
 
-
+//adding routes
 app.use('',require('./routes/delivery.js'))
 
 const port= process.env.PORT || 5000;

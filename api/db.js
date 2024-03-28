@@ -14,6 +14,7 @@ const pool = new Pool({
 });
 
 
+//to test connection
 const connectToDb=async ()=>{
     try {
         const client = await pool.connect();
