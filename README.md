@@ -5,6 +5,13 @@ A REST API to caluate the delivery price dynamically based on organisation, zone
 The primary focus is on a
 dynamic pricing module to calculate the total cost of food delivery based on various factors.
 
+## API
+checkout the API here :- - [Dynamic_pricing_API](https://dynamicpricing.onrender.com) 
+API endpoint :- /price
+Allowed Method:- POST
+
+for more details visit the API page it has swagger page which documents the API.
+
 ## Built With
 
 Following technologies and libraries are used for the development of this website
@@ -32,7 +39,7 @@ In general, we follow the "fork-and-pull" Git workflow.
 3.  **Commit** changes to your own separate branch
 4.  **Push** your work back up to your fork
 5.  Submit a **Pull request** so that we can review your changes
-6.  
+  
 ### Running the project.
 
 The project uses  NPM. 
